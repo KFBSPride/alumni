@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenan-Flagler Pride Club — Alumni Directory</title>
+  <meta name="description" content="Where Kenan-Flagler Pride Club alumni are working now. Searchable, filterable directory of LGBTQ+ MBA graduates from UNC.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      --kfa-bg: #FAFAF6;
+      --kfa-card: #FFFFFF;
+      --kfa-ink: #0E0E0C;
+      --kfa-ink-soft: #5C5C56;
+      --kfa-ink-muted: #8E8E86;
+      --kfa-rule: #E8E5DC;
+      --kfa-accent: #4B9CD3;
+      --kfa-accent-deep: #13294B;
+      --kfa-pride-r: #E63946;
+      --kfa-pride-o: #F4A261;
+      --kfa-pride-y: #E9C46A;
+      --kfa-pride-g: #2A9D8F;
+      --kfa-pride-b: #457B9D;
+      --kfa-pride-v: #6A4C93;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--kfa-ink);
+      background: var(--kfa-bg);
+      line-height: 1.5;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .kfa-root {
+      padding: clamp(20px, 4vw, 56px) clamp(16px, 4vw, 48px) clamp(40px, 5vw, 72px);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .kfa-hero {
+      border-bottom: 1px solid var(--kfa-rule);
+      padding-bottom: clamp(28px, 5vw, 56px);
+      margin-bottom: clamp(28px, 4vw, 48px);
+    }
+    .kfa-eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--kfa-ink-soft);
+      margin: 0 0 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .kfa-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 48px; height: 3px;
+      background: linear-gradient(90deg,
+        var(--kfa-pride-r), var(--kfa-pride-o), var(--kfa-pride-y),
+        var(--kfa-pride-g), var(--kfa-pride-b), var(--kfa-pride-v));
+      border-radius: 2px;
+    }
+    .kfa-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-variation-settings: "opsz" 144, "SOFT" 50;
+      font-weight: 400;
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px 0;
+    }
+    .kfa-title em {
+      font-style: italic;
+      font-weight: 300;
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+      color: var(--kfa-accent-deep);
+    }
+    .kfa-lede {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(17px, 1.8vw, 21px);
+      line-height: 1.5;
+      max-width: 640px;
+      color: var(--kfa-ink-soft);
+      margin: 0;
+    }
+
+    .kfa-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: clamp(16px, 3vw, 40px);
+      margin-bottom: clamp(28px, 4vw, 48px);
+      padding-bottom: clamp(28px, 4vw, 48px);
+      border-bottom: 1px solid var(--kfa-rule);
+    }
+    .kfa-stat-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--kfa-ink-muted);
+      margin: 0 0 6px 0;
+    }
+    .kfa-stat-value {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1;
+      margin: 0;
+    }
+
+    .kfa-controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+      align-items: end;
+    }
+    @media (min-width: 720px) {
+      .kfa-controls { grid-template-columns: 2fr 1fr 1fr 1fr; }
+    }
+    .kfa-field { display: flex; flex-direction: column; gap: 6px; }
+    .kfa-field-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--kfa-ink-muted);
+      font-weight: 500;
+    }
+    .kfa-input, .kfa-select {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      padding: 12px 14px;
+      border: 1px solid var(--kfa-rule);
+      background: var(--kfa-card);
+      color: var(--kfa-ink);
+      border-radius: 4px;
+      transition: border-color 0.15s ease;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    .kfa-input:focus, .kfa-select:focus {
+      outline: none;
+      border-color: var(--kfa-accent);
+    }
+    .kfa-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%235C5C56' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .kfa-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--kfa-rule);
+    }
+    .kfa-count { font-size: 13px; color: var(--kfa-ink-soft); margin: 0; }
+    .kfa-count strong { color: var(--kfa-ink); font-weight: 600; }
+    .kfa-clear-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      color: var(--kfa-accent);
+      cursor: pointer;
+      padding: 6px 0;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .kfa-clear-btn:hover { color: var(--kfa-accent-deep); }
+    .kfa-clear-btn[hidden] { display: none; }
+
+    .kfa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: clamp(20px, 2.5vw, 32px);
+    }
+
+    .kfa-card {
+      background: var(--kfa-card);
+      border: 1px solid var(--kfa-rule);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .kfa-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(14, 14, 12, 0.08);
+      border-color: var(--kfa-accent);
+    }
+    .kfa-photo-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f0eee5 0%, #e8e5dc 100%);
+    }
+    .kfa-photo-wrap a { display: block; width: 100%; height: 100%; text-decoration: none; }
+    .kfa-photo {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .kfa-card:hover .kfa-photo { transform: scale(1.04); }
+    .kfa-photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--kfa-ink-muted);
+    }
+    .kfa-year-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(14, 14, 12, 0.86);
+      color: #fff;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      border-radius: 3px;
+    }
+    .kfa-role-badge {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: var(--kfa-accent);
+      color: #fff;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 3px;
+    }
+    .kfa-card-body {
+      padding: 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+    }
+    .kfa-name {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 19px;
+      line-height: 1.2;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .kfa-title-line { font-size: 13px; color: var(--kfa-ink-soft); margin: 0; line-height: 1.35; }
+    .kfa-company { font-size: 13px; font-weight: 500; margin: 0; }
+    .kfa-tags-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .kfa-tag {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--kfa-ink-soft);
+      border: 1px solid var(--kfa-rule);
+      padding: 3px 7px;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+    .kfa-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px 14px;
+      margin-top: auto;
+      border-top: 1px solid var(--kfa-rule);
+    }
+    .kfa-location {
+      font-size: 11px;
+      color: var(--kfa-ink-muted);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .kfa-li-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      color: var(--kfa-ink-muted);
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+    .kfa-li-link:hover { color: #0A66C2; transform: scale(1.1); }
+    .kfa-li-link svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .kfa-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--kfa-ink-muted);
+      font-family: 'Fraunces', serif;
+      font-size: 20px;
+      grid-column: 1 / -1;
+    }
+
+    .kfa-cta {
+      margin-top: clamp(40px, 6vw, 72px);
+      padding: clamp(28px, 4vw, 48px);
+      background: var(--kfa-accent-deep);
+      color: #fff;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .kfa-cta::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--kfa-pride-r), var(--kfa-pride-o), var(--kfa-pride-y),
+        var(--kfa-pride-g), var(--kfa-pride-b), var(--kfa-pride-v));
+    }
+    .kfa-cta h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.1;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.01em;
+    }
+    .kfa-cta h2 em { font-style: italic; opacity: 0.85; }
+    .kfa-cta p { margin: 0 0 18px 0; opacity: 0.85; max-width: 560px; font-size: 15px; }
+    .kfa-cta-btn {
+      display: inline-block;
+      background: #fff;
+      color: var(--kfa-accent-deep);
+      text-decoration: none;
+      padding: 12px 22px;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      transition: transform 0.15s ease;
+    }
+    .kfa-cta-btn:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+<div class="kfa-root">
+
+  <header class="kfa-hero">
+    <p class="kfa-eyebrow">Kenan-Flagler Pride Club</p>
+    <h1 class="kfa-title">Where We <em>Are Now</em></h1>
+    <p class="kfa-lede">
+      Since 2011, the Kenan-Flagler Pride Club has built a network of LGBTQ+ MBA
+      leaders across industries, geographies, and generations. This is where they landed.
+    </p>
+  </header>
+
+  <section class="kfa-stats">
+    <div><p class="kfa-stat-label">Alumni</p><p class="kfa-stat-value" data-stat="total">—</p></div>
+    <div><p class="kfa-stat-label">Class Years</p><p class="kfa-stat-value" data-stat="years">—</p></div>
+    <div><p class="kfa-stat-label">Industries</p><p class="kfa-stat-value" data-stat="industries">—</p></div>
+    <div><p class="kfa-stat-label">Companies</p><p class="kfa-stat-value" data-stat="companies">—</p></div>
+  </section>
+
+  <section class="kfa-controls">
+    <div class="kfa-field">
+      <label class="kfa-field-label" for="kfa-search">Search</label>
+      <input class="kfa-input" id="kfa-search" type="search" placeholder="Name, company, role…" />
+    </div>
+    <div class="kfa-field">
+      <label class="kfa-field-label" for="kfa-year">Class Year</label>
+      <select class="kfa-select" id="kfa-year"><option value="">All years</option></select>
+    </div>
+    <div class="kfa-field">
+      <label class="kfa-field-label" for="kfa-industry">Industry</label>
+      <select class="kfa-select" id="kfa-industry"><option value="">All industries</option></select>
+    </div>
+    <div class="kfa-field">
+      <label class="kfa-field-label" for="kfa-sort">Sort</label>
+      <select class="kfa-select" id="kfa-sort">
+        <option value="newest">Most recent first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="name">By name (A–Z)</option>
+      </select>
+    </div>
+  </section>
+
+  <div class="kfa-meta-row">
+    <p class="kfa-count">Showing <strong id="kfa-shown">0</strong> of <strong id="kfa-total">0</strong> alumni</p>
+    <button class="kfa-clear-btn" id="kfa-clear" hidden>Clear filters</button>
+  </div>
+
+  <section class="kfa-grid" id="kfa-grid"></section>
+
+  <section class="kfa-cta">
+    <h2>New job? Moved cities? <em>Tell us.</em></h2>
+    <p>This directory is only as current as our alumni keep it. If anything here is out of date — or missing — we'd love to update your card.</p>
+    <a class="kfa-cta-btn" href="mailto:prideclub@kenan-flagler.unc.edu?subject=Update%20my%20alumni%20info">Update my info →</a>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  /* ============================================================
+     ALUMNI DATA — EDIT THIS ARRAY TO UPDATE THE DIRECTORY
+     ------------------------------------------------------------
+     Each entry has these fields (empty strings "" are fine):
+       name        — Full name (required)
+       photo       — URL to headshot
+       classYear   — MBA graduation year as number (e.g., 2026)
+       prideRole   — Optional: "President", "VP", etc. (badge)
+       title       — Current job title
+       company     — Current employer
+       industry    — Industry category (used for filter dropdown)
+       location    — "City, ST" or "City, Country"
+       linkedin    — Full LinkedIn URL (photo becomes a link)
+     ============================================================ */
+  const ALUMNI = [
+    // ===== Pride Club 2025-2026 leadership =====
+    { name: "Sun Nguyen",        photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/Headshot_experience-week-150x150.jpg",   classYear: 2026, prideRole: "President", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/duong-nguyen-sun/" },
+    { name: "Darius Johnson",    photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/JohnsonDariusHeadshot20225-150x150.jpg", classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/darius-j/" },
+    { name: "Kyle Gasaway",      photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/KMG-Full-Suit-Headshot-150x150.jpg",   classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/kyle-gasaway/" },
+    { name: "Katja Muller",      photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/Katja-Muller-linkedin-pic-150x150.jpeg", classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/katjamuller789/" },
+
+    // ===== Pride Club 2024-2025 leadership =====
+    { name: "Eric Chang",               photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1726643984327-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/yi-chi-eric-chang/" },
+    { name: "Amir Nili",                photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1728363073852-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/amirnili/" },
+    { name: "Gloriana Ordóñez Carboni", photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1691798462728-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/gloriana-ordonez-carboni/" },
+    { name: "Kasha Ely",                photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/3-150x150.png",              classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/kasha-ely/" },
+    { name: "Shreyansh Singhal",        photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1700265535470-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/shreyanshsinghal/" },
+    { name: "Chiale Chiang",            photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1685463477237-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/cece-chiang/" },
+
+    // ===== Pride Club 2023-2024 leadership =====
+    { name: "Ryan Fleer",         photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "TJ Scott",           photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Michael Lofferdo",   photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Anushree Godbolea",  photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Samantha McIntyre",  photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Charlie Rodgers",    photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Kayla Marshall",     photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Devin Bellamy",      photo: "", classYear: 2024, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2021-2022 leadership =====
+    { name: "Stephanie Chak",     photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Andres Tello",       photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "John Kirkland",      photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Lauren Valdez",      photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Richard Meyers",     photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Ran Levinsky",       photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Vasundhara Jain",    photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Jessica Owens",      photo: "", classYear: 2022, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2020-2021 leadership =====
+    { name: "Haylley Johnson",    photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Amelia Moore",       photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Nikita Singhania",   photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Wes Cooper",         photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Jermyn Davis",       photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "John Nelson",        photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Eric Brooks",        photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Julia Stroup",       photo: "", classYear: 2021, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2018-2019 leadership =====
+    { name: "Reinaldo Caravellas", photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Kate Lohmeyer",       photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Yinlu Deng",          photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Hanin Khasru",        photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Rafael Santos",       photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Damon Hartye",        photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Libby Parsons",       photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Shashank Tangirala",  photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Mariana Thomas",      photo: "", classYear: 2019, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2014-2015 leadership =====
+    { name: "Nate Creger",          photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Andrea Green",         photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Dustin St John",       photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Emily Liner",          photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Gautam Gottumukkala",  photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Heather Brutz",        photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Ira Kaplan",           photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Jessica Fischburg",    photo: "", classYear: 2015, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2013-2014 leadership =====
+    { name: "Betsey Shane-Rosenblum", photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Jessica Newfield",       photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Audrey Baguchwal",       photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Evan Zawatsky",          photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Lisa Yuo",               photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Rebecca Caesar",         photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Sid Ganguly",            photo: "", classYear: 2014, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2012-2013 leadership =====
+    { name: "Maital Guttman",     photo: "", classYear: 2013, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Steven Tamaroglio",  photo: "", classYear: 2013, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Casey Cook",         photo: "", classYear: 2013, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+
+    // ===== Pride Club 2011-2012 leadership =====
+    { name: "Ricardo Amaro",      photo: "", classYear: 2012, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
+    { name: "Carrie Lyons",       photo: "", classYear: 2012, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" }
+  ];
+
+  /* ============================================================
+     RENDERING / FILTERING LOGIC — don't need to edit below
+     ============================================================ */
+  const grid       = document.getElementById('kfa-grid');
+  const searchEl   = document.getElementById('kfa-search');
+  const yearEl     = document.getElementById('kfa-year');
+  const industryEl = document.getElementById('kfa-industry');
+  const sortEl     = document.getElementById('kfa-sort');
+  const shownEl    = document.getElementById('kfa-shown');
+  const totalEl    = document.getElementById('kfa-total');
+  const clearBtn   = document.getElementById('kfa-clear');
+
+  const uniqueYears = [...new Set(ALUMNI.map(a => a.classYear).filter(Boolean))].sort((a,b) => b - a);
+  uniqueYears.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = "MBA '" + String(y).slice(2);
+    yearEl.appendChild(opt);
+  });
+
+  const uniqueIndustries = [...new Set(ALUMNI.map(a => a.industry).filter(Boolean))].sort();
+  uniqueIndustries.forEach(i => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    industryEl.appendChild(opt);
+  });
+
+  document.querySelector('[data-stat="total"]').textContent = ALUMNI.length;
+  const yearsWith = ALUMNI.map(a => a.classYear).filter(Boolean);
+  if (yearsWith.length) {
+    const min = Math.min(...yearsWith), max = Math.max(...yearsWith);
+    document.querySelector('[data-stat="years"]').textContent = "'" + String(min).slice(2) + "–'" + String(max).slice(2);
+  }
+  document.querySelector('[data-stat="industries"]').textContent = uniqueIndustries.length || "—";
+  const uniqueCompanies = [...new Set(ALUMNI.map(a => a.company).filter(Boolean))];
+  document.querySelector('[data-stat="companies"]').textContent = uniqueCompanies.length || "—";
+  totalEl.textContent = ALUMNI.length;
+
+  const linkedinSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>';
+  const pinSVG = '<svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>';
+
+  function escapeHTML(s) {
+    return String(s || "").replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+  function initials(name) {
+    return name.split(/\s+/).map(p => p[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
+  }
+
+  function renderCard(a) {
+    const photoInner = a.photo
+      ? '<img class="kfa-photo" loading="lazy" src="' + escapeHTML(a.photo) + '" alt="' + escapeHTML(a.name) + '">'
+      : '<div class="kfa-photo-placeholder">' + escapeHTML(initials(a.name)) + '</div>';
+    const photoBlock = a.linkedin
+      ? '<a href="' + escapeHTML(a.linkedin) + '" target="_blank" rel="noopener" aria-label="' + escapeHTML(a.name) + ' on LinkedIn">' + photoInner + '</a>'
+      : photoInner;
+    const yearBadge = a.classYear ? '<span class="kfa-year-badge">MBA \'' + String(a.classYear).slice(2) + '</span>' : '';
+    const roleBadge = a.prideRole ? '<span class="kfa-role-badge">' + escapeHTML(a.prideRole) + '</span>' : '';
+    const titleLine = a.title ? '<p class="kfa-title-line">' + escapeHTML(a.title) + '</p>' : '';
+    const companyLine = a.company ? '<p class="kfa-company">' + escapeHTML(a.company) + '</p>' : '';
+    const tags = [];
+    if (a.industry) tags.push('<span class="kfa-tag">' + escapeHTML(a.industry) + '</span>');
+    const tagsBlock = tags.length ? '<div class="kfa-tags-row">' + tags.join('') + '</div>' : '';
+    const locBlock = a.location ? '<span class="kfa-location">' + pinSVG + ' ' + escapeHTML(a.location) + '</span>' : '<span></span>';
+    const liBlock = a.linkedin ? '<a class="kfa-li-link" href="' + escapeHTML(a.linkedin) + '" target="_blank" rel="noopener" aria-label="LinkedIn">' + linkedinSVG + '</a>' : '';
+    const footer = (a.location || a.linkedin) ? '<div class="kfa-card-footer">' + locBlock + liBlock + '</div>' : '';
+    return '<article class="kfa-card">' +
+      '<div class="kfa-photo-wrap">' + photoBlock + yearBadge + roleBadge + '</div>' +
+      '<div class="kfa-card-body">' +
+        '<h3 class="kfa-name">' + escapeHTML(a.name) + '</h3>' +
+        titleLine + companyLine + tagsBlock +
+      '</div>' + footer + '</article>';
+  }
+
+  function notifyHeight() {
+    // Tell parent page our height so it can resize the iframe (if parent listens)
+    try {
+      const h = document.documentElement.scrollHeight;
+      window.parent.postMessage({ kfaHeight: h }, '*');
+    } catch (e) {}
+  }
+
+  function render() {
+    const q = searchEl.value.trim().toLowerCase();
+    const y = yearEl.value;
+    const ind = industryEl.value;
+    const sort = sortEl.value;
+
+    let list = ALUMNI.filter(a => {
+      if (y && String(a.classYear) !== y) return false;
+      if (ind && a.industry !== ind) return false;
+      if (q) {
+        const hay = [a.name, a.company, a.title, a.industry, a.location].join(' ').toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    if (sort === 'newest')      list.sort((a,b) => (b.classYear||0) - (a.classYear||0) || a.name.localeCompare(b.name));
+    else if (sort === 'oldest') list.sort((a,b) => (a.classYear||9999) - (b.classYear||9999) || a.name.localeCompare(b.name));
+    else                        list.sort((a,b) => a.name.localeCompare(b.name));
+
+    shownEl.textContent = list.length;
+    clearBtn.hidden = !(q || y || ind);
+
+    grid.innerHTML = list.length
+      ? list.map(renderCard).join('')
+      : '<div class="kfa-empty">No alumni match these filters.</div>';
+
+    setTimeout(notifyHeight, 100);
+  }
+
+  [searchEl, yearEl, industryEl, sortEl].forEach(el => el.addEventListener('input', render));
+  clearBtn.addEventListener('click', () => {
+    searchEl.value = ''; yearEl.value = ''; industryEl.value = '';
+    render();
+  });
+
+  window.addEventListener('load', notifyHeight);
+  window.addEventListener('resize', notifyHeight);
+
+  render();
+})();
+</script>
+</body>
+</html>
