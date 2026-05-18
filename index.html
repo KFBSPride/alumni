@@ -434,13 +434,13 @@
      ============================================================ */
   const ALUMNI = [
     // ===== Pride Club 2025-2026 leadership =====
-    { name: "Sun Nguyen",        photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/Headshot_experience-week-150x150.jpg",   classYear: 2026, prideRole: "President", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/duong-nguyen-sun/" },
-    { name: "Darius Johnson",    photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/JohnsonDariusHeadshot20225-150x150.jpg", classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/darius-j/" },
-    { name: "Kyle Gasaway",      photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/KMG-Full-Suit-Headshot-150x150.jpg",   classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/kyle-gasaway/" },
-    { name: "Katja Muller",      photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2025/05/Katja-Muller-linkedin-pic-150x150.jpeg", classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/katjamuller789/" },
+    { name: "Sun Nguyen",        photo: "Alumni Headshots/Sun Nguyen.png",   classYear: 2026, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/duong-nguyen-sun/" },
+    { name: "Darius Johnson",    photo: "Alumni Headshots/Darius Johnson.jpeg", classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/darius-j/" },
+    { name: "Kyle Gasaway",      photo: "Alumni Headshots/Kyle Gasaway.avif",   classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/kyle-gasaway/" },
+    { name: "Katja Muller",      photo: "Alumni Headshots/Katja Muller.jpeg", classYear: 2026, prideRole: "",          title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/katjamuller789/" },
 
     // ===== Pride Club 2024-2025 leadership =====
-    { name: "Eric Chang",               photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1726643984327-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/yi-chi-eric-chang/" },
+    { name: "Eric Chang",               photo: "Alumni Headshots/Eric Chang.jpeg", classYear: 2025, prideRole: "", title: "", company: "Strata Clean Energy", industry: "Energy, Finance", location: "Durham, NC", linkedin: "https://www.linkedin.com/in/yi-chi-eric-chang/" },
     { name: "Amir Nili",                photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1728363073852-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/amirnili/" },
     { name: "Gloriana Ordóñez Carboni", photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/1691798462728-150x150.jpeg", classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/gloriana-ordonez-carboni/" },
     { name: "Kasha Ely",                photo: "https://mbaprideclub.web.unc.edu/wp-content/uploads/sites/20334/2024/11/3-150x150.png",              classYear: 2025, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "https://www.linkedin.com/in/kasha-ely/" },
@@ -516,6 +516,11 @@
     { name: "Ricardo Amaro",      photo: "", classYear: 2012, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" },
     { name: "Carrie Lyons",       photo: "", classYear: 2012, prideRole: "", title: "", company: "", industry: "", location: "", linkedin: "" }
   ];
+  function getIndustries(a) {
+    if (Array.isArray(a.industries)) return a.industries.filter(Boolean);
+    if (a.industry) return [a.industry];
+    return [];
+  }
 
   /* ============================================================
      RENDERING / FILTERING LOGIC — don't need to edit below
@@ -537,7 +542,7 @@
     yearEl.appendChild(opt);
   });
 
-  const uniqueIndustries = [...new Set(ALUMNI.map(a => a.industry).filter(Boolean))].sort();
+  const uniqueIndustries = [...new Set(ALUMNI.flatMap(getIndustries))].sort();
   uniqueIndustries.forEach(i => {
     const opt = document.createElement('option');
     opt.value = i;
@@ -580,7 +585,7 @@
     const titleLine = a.title ? '<p class="kfa-title-line">' + escapeHTML(a.title) + '</p>' : '';
     const companyLine = a.company ? '<p class="kfa-company">' + escapeHTML(a.company) + '</p>' : '';
     const tags = [];
-    if (a.industry) tags.push('<span class="kfa-tag">' + escapeHTML(a.industry) + '</span>');
+    getIndustries(a).forEach(i => tags.push('<span class="kfa-tag">' + escapeHTML(i) + '</span>'));
     const tagsBlock = tags.length ? '<div class="kfa-tags-row">' + tags.join('') + '</div>' : '';
     const locBlock = a.location ? '<span class="kfa-location">' + pinSVG + ' ' + escapeHTML(a.location) + '</span>' : '<span></span>';
     const liBlock = a.linkedin ? '<a class="kfa-li-link" href="' + escapeHTML(a.linkedin) + '" target="_blank" rel="noopener" aria-label="LinkedIn">' + linkedinSVG + '</a>' : '';
@@ -609,9 +614,9 @@
 
     let list = ALUMNI.filter(a => {
       if (y && String(a.classYear) !== y) return false;
-      if (ind && a.industry !== ind) return false;
+      if (ind && !getIndustries(a).includes(ind)) return false;
       if (q) {
-        const hay = [a.name, a.company, a.title, a.industry, a.location].join(' ').toLowerCase();
+        const hay = [a.name, a.company, a.title, ...getIndustries(a), a.location].join(' ').toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
